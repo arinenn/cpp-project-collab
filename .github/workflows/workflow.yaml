@@ -11,4 +11,4 @@ jobs:
               with:
                 name: binaries
                 path: |
-                    build/main
+                    build/test
