@@ -1,25 +1,14 @@
 #include <iostream>
-#include <complex>
-#include <cmath>
-#include <Eigen/Dense>
 #include "fft.h"
-
-// Eigen::RowVectorXcd <- complex dynamic vector
+#include "european_options.h"
+#include "heston_model.h"
 
 struct MarketParams
 {
+    double v;               // initial variance
     double s;               // initial underlying price
     double r;               // risk-free interest rate
     Eigen::RowVectorXcd times;  // arbitrary size double vector
-};
-
-struct HestonParams
-{
-    // double v;               // initial variance
-    double rho;             // correlation between brownian motions
-    double kappa;           // speed of mean-reversion
-    double theta;           // long-term mean
-    double sigma;           // volatility of volatility
 };
 
 void test_Eigen()
@@ -30,42 +19,6 @@ void test_Eigen()
     m(0, 1) = -1;
     m(1, 1) = m(1,0) + m(0,1);
     std::cout << m << std::endl;
-}
-
-std::complex<double>
-heston_log_price_cf(std::complex<double> u, double x, double v, double t, double T, HestonParams &params)
-{
-    std::complex<double> i(0.0, 1.0);
-    std::complex<double> one(1.0, 0.0);
-    std::complex<double> two(2.0, 0.0);
-    std::complex<double> d = std::sqrt(
-        std::pow(params.rho * params.sigma * i * u - params.kappa, 2) +
-        std::pow(params.sigma, 2) * (i * u + std::pow(u, 2))
-        );
-    std::complex<double> g = 
-        (params.rho * params.sigma * i * u - params.kappa + d) / 
-        (params.rho * params.sigma * i * u - params.kappa - d);
-    double tau = T - t;
-    std::complex<double> D = 
-        ((params.kappa - params.rho * params.sigma * i * u - d) / std::pow(params.sigma, 2)) *
-        ((one - std::exp(-d * tau)) / (one - g * std::exp(-d * tau)));
-    std::complex<double> C = 
-        ((params.kappa * params.theta) / std::pow(params.sigma, 2)) * 
-        ((params.kappa - params.rho * params.sigma * i * u - d) * tau - two * std::log(
-            (one - g * std::exp(-d * tau)) / (one - g)
-        ));
-    return std::exp(C + D * v + i * u * x);
-}
-
-std::complex<double>
-heston_exp_option_cf(double u, double x, double v, double alpha, double T, HestonParams &params)
-{
-    std::complex<double> i(0.0, 1.0);
-    std::complex<double> one(1.0, 0.0);
-    std::complex<double> two(2.0, 0.0);
-    return 
-        heston_log_price_cf(u - (alpha + one) * i, x, v, 0, T, params) / 
-        (std::pow(alpha, 2) + alpha - std::pow(u, 2) + i * (two * alpha + one) * u);
 }
 
 int main()
@@ -85,10 +38,17 @@ int main()
         std::complex<double>(1.5, 5.5),
         std::complex<double>(1.5, 5.5);
     // std::cout << vector << std::endl;
+    Eigen::RowVectorXcd result(6);
     try {
-        fft(vector);
+        result = fft(vector);
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }
+    std::cout << "Result1   " << result << std::endl;
+
+    Eigen::RowVectorXcd vector2(8);
+    vector2 = std::complex<double> (0.0, 2.0) * M_PI * Eigen::RowVectorXcd::LinSpaced(8, 0, 7) / 8;
+    vector2 = vector2.array().exp();
+    std::cout << "Result2   " << fft(vector2) << std::endl;
     return 0;
 }

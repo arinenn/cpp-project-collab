@@ -1,5 +1,4 @@
 #include "fft.h"
-#include <iostream>
 
 Eigen::RowVectorXcd
 fft(Eigen::RowVectorXcd &vector)
@@ -13,24 +12,22 @@ fft(Eigen::RowVectorXcd &vector)
     Eigen::RowVectorXcd result(vector.cols());
 
     // calculate complex exponents
-    double vector_size = vector.cols();
-    double half_size = vector.cols() >> 1;
+    int vector_size = vector.cols();
+    int half_size = vector.cols() >> 1;
     std::complex<double> i(0.0, 1.0);
-    Eigen::RowVectorXcd exponents((int) half_size);
-    exponents = Eigen::RowVectorXcd::LinSpaced((int) half_size, 0, (int) half_size - 1);
-    exponents = (-2 * M_PI * i / half_size) * exponents;
+    Eigen::RowVectorXcd exponents(half_size);
+    exponents = (-2 * M_PI * i / (double)half_size) * Eigen::RowVectorXcd::LinSpaced(half_size, 0, half_size - 1);
     exponents = exponents.array().exp();
 
     // calculate the spectrum
     Eigen::RowVectorXcd even_half = vector(Eigen::seq(0, vector.cols() - 1, 2));
     Eigen::RowVectorXcd odd_half  = vector(Eigen::seq(1, vector.cols() - 1, 2));
-    int n = 0;  // degree counter
-    for (auto x: result) {
-        std::complex<double> dot_exponent = std::exp(- 2 * M_PI * n * i / vector_size); // multiplier
+    for (int n=0; n<vector_size; n++) {
         Eigen::RowVectorXcd exp_pow = exponents.array().pow(n);
-        x = exp_pow.dot(even_half) + dot_exponent * exp_pow.dot(odd_half);
-        n += 1;
+        std::complex<double> dot_exponent = std::exp(-2 * M_PI * n * i / (double)vector_size); // multiplier
+        std::complex<double> sum_1 = exp_pow.cwiseProduct(even_half).sum();
+        std::complex<double> sum_2 = exp_pow.cwiseProduct(odd_half).sum();
+        result(n) = sum_1 + dot_exponent * sum_2;
     }
-
     return result;
 }

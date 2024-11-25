@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(test
     test.cpp
     src/fft.cpp
+    src/european_options.cpp
+    src/heston_model.cpp
 )
 
 include_directories(include)
