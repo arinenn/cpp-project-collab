@@ -1,8 +1,8 @@
 #include <iostream>
 #include <complex>
 #include <cmath>
-#include <Eigen/Core>
 #include <Eigen/Dense>
+#include "fft.h"
 
 // Eigen::RowVectorXcd <- complex dynamic vector
 
@@ -68,17 +68,6 @@ heston_exp_option_cf(double u, double x, double v, double alpha, double T, Hesto
         (std::pow(alpha, 2) + alpha - std::pow(u, 2) + i * (two * alpha + one) * u);
 }
 
-Eigen::RowVectorXcd
-fft(Eigen::RowVectorXcd &vector)
-{
-    std::cout << vector.cols() << std::endl;
-    int vector_size = vector.cols();
-    if (vector_size % 2 == 1) {
-        throw std::runtime_error("Vector must be of even size.");
-    }
-    return vector;
-}
-
 int main()
 {
     // test_Eigen();
@@ -88,8 +77,6 @@ int main()
     // std::complex<double> res = heston_log_price_cf(0.5, 1, 0.5, 0.5, 1, params); // (0.879748,0.410697)  CORRECT
     std::cout << res << std::endl;
 
-    std::complex<double> a(1.5, 5.5);
-    std::cout << a << std::endl;
     Eigen::RowVectorXcd vector(6);
     vector << std::complex<double>(1.5, 5.5),
         std::complex<double>(1.5, 5.5),
@@ -97,7 +84,7 @@ int main()
         std::complex<double>(1.5, 5.5),
         std::complex<double>(1.5, 5.5),
         std::complex<double>(1.5, 5.5);
-    std::cout << vector << std::endl;
+    // std::cout << vector << std::endl;
     try {
         fft(vector);
     } catch (std::exception &e) {
