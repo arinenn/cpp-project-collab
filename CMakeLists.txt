@@ -1,4 +1,21 @@
 cmake_minimum_required(VERSION 3.14)
 project(cpp-project-collab)
 
-add_executable(main main.cpp src/my_add.cpp)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+add_executable(test
+    test.cpp
+    src/fft.cpp
+    src/european_options.cpp
+    src/heston_model.cpp
+)
+
+include_directories(include)
+
+# # include Eigen
+# set(LIBRARIES_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+# include_directories(${LIBRARIES_INCLUDE_DIR})
+
+# # link Eigen
+# target_include_directories(test PRIVATE LIBRARIES_INCLUDE_DIR)
