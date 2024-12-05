@@ -15,11 +15,20 @@ private:
     int N;      // count of exponents in integral approximation
     double d_u; // u grid step
     double d_k; // log strike grid step
+    double df(double t, double T);
 public:
-    HestonEuropeanOptionCalculator(double r, double s_0, double v_0, HestonParams &params);
-    double df(double T);
-    double calculate(EuropeanOption &option);
+    HestonEuropeanOptionCalculator(
+        double r,
+        double s_0,
+        double v_0,
+        HestonParams &pars,
+        double alph,
+        int N,
+        double delta_u
+    );
     void set_calculator_params(double alpha, int N, double d_u);
+    Eigen::RowVectorXd get_log_strike_grid();
+    Eigen::RowVectorXd calculate(EuropeanOption &option);
 };
 
 #endif  // HESTON_PRICING_H
