@@ -3,7 +3,6 @@
 
 #include <complex>
 #include <cmath>
-#include <Eigen/Dense>
 
 struct HestonParams {
     double rho;             // correlation between brownian motions

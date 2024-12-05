@@ -1,10 +1,10 @@
 #include "heston_model.h"
+#include <iostream>
+
 std::complex<double>
 heston_log_price_cf(std::complex<double> u, double x, double v, double t, double T, HestonParams &params)
 {
-    std::complex<double> i(0.0, 1.0);
-    std::complex<double> one(1.0, 0.0);
-    std::complex<double> two(2.0, 0.0);
+    std::complex<double> i = {0.0, 1.0};
     std::complex<double> d = std::sqrt(
         std::pow(params.rho * params.sigma * i * u - params.kappa, 2) +
         std::pow(params.sigma, 2) * (i * u + std::pow(u, 2))
@@ -15,11 +15,11 @@ heston_log_price_cf(std::complex<double> u, double x, double v, double t, double
     double tau = T - t;
     std::complex<double> D = 
         ((params.kappa - params.rho * params.sigma * i * u - d) / std::pow(params.sigma, 2)) *
-        ((one - std::exp(-d * tau)) / (one - g * std::exp(-d * tau)));
+    ((1.0 - std::exp(-d * tau)) / (1.0 - g * std::exp(-d * tau)));
     std::complex<double> C = 
         ((params.kappa * params.theta) / std::pow(params.sigma, 2)) * 
-        ((params.kappa - params.rho * params.sigma * i * u - d) * tau - two * std::log(
-            (one - g * std::exp(-d * tau)) / (one - g)
+        ((params.kappa - params.rho * params.sigma * i * u - d) * tau - 2.0 * std::log(
+            (1.0 - g * std::exp(-d * tau)) / (1.0 - g)
         ));
     return std::exp(C + D * v + i * u * x);
 }

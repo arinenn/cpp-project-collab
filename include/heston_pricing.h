@@ -21,14 +21,15 @@ public:
         double r,
         double s_0,
         double v_0,
-        HestonParams &pars,
-        double alph,
+        HestonParams &params,
+        double alpha,
         int N,
-        double delta_u
+        double d_u
     );
     void set_calculator_params(double alpha, int N, double d_u);
     Eigen::RowVectorXd get_log_strike_grid();
     Eigen::RowVectorXd calculate(EuropeanOption &option);
+    void calc_and_show(EuropeanOption &option, double K_lower, double K_upper);
 };
 
 #endif  // HESTON_PRICING_H
