@@ -1,1 +1,1 @@
-cmake -S . -B build & cmake build & cmake --build build & build\test
+cmake -S . -B build & cmake build & cmake --build build & build\main

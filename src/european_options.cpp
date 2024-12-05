@@ -1,7 +1,14 @@
 #include "european_options.h"
 
-EuropeanOption::EuropeanOption(const std::string &type, double maturity, double strike):
-        type(type), maturity(maturity), strike(strike) {};
+EuropeanOption::EuropeanOption(bool is_call, double m, double s): _is_call(is_call)
+{
+    set_maturity(m);
+    set_strike(s);
+};
+
+bool EuropeanOption::is_call() {
+    return _is_call;
+}
 
 void EuropeanOption::set_maturity(double m) {
     if (m <= 0) {
