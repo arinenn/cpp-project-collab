@@ -13,9 +13,9 @@ struct HestonParams {
 };
 
 std::complex<double>
-heston_log_price_cf(std::complex<double>, double, double, double, double, HestonParams &);
+heston_log_price_cf(std::complex<double> u, double x, double v, double t, double T, HestonParams &params);
 
 std::complex<double>
-heston_exp_option_cf(double, double, double, double, double, HestonParams &);
+heston_exp_option_cf(double u, double x, double v, double alpha, double T, HestonParams &params);
 
 #endif  // HESTON_MODEL_H

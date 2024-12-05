@@ -2,15 +2,15 @@
 #define EUROPEAN_OPTIONS_H
 
 #include <stdexcept>
-#include <string>
 
 class EuropeanOption {
 private:
-    std::string type;
+    bool _is_call;
     double maturity;
     double strike;
 public:
-    EuropeanOption(const std::string &, double, double);
+    EuropeanOption(bool _is_call, double m, double s);
+    bool is_call();
     void set_maturity(double);
     double get_maturity();
     void set_strike(double);

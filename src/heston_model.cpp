@@ -2,6 +2,7 @@
 
 std::complex<double>
 heston_log_price_cf(std::complex<double> u, double x, double v, double t, double T, HestonParams &params)
+// heston_log_price_cf(Eigen::RowVectorXcd u, double x, double v, double t, double T, HestonParams &params)
 {
     std::complex<double> i(0.0, 1.0);
     std::complex<double> one(1.0, 0.0);
