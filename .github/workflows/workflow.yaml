@@ -12,6 +12,7 @@ jobs:
           name: binaries
           path: |
               build/main
+              build/test2
   run:
     needs: build
     runs-on: ubuntu-latest
