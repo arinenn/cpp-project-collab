@@ -2,6 +2,7 @@
 #include <iostream>
 #include <iomanip>
 
+
 HestonEuropeanOptionCalculator::HestonEuropeanOptionCalculator(
     double _r,
     double _s_0,
@@ -89,5 +90,16 @@ void HestonEuropeanOptionCalculator::calc_and_show(EuropeanOption &option, doubl
             break;
         }
     }
+    print_results(strikes, prices);
+}
+
+void HestonEuropeanOptionCalculator::print_results(Eigen::RowVectorXd &strikes, Eigen::RowVectorXd &prices)
+{
+    std::ofstream fout("plot/output.csv"); 
+    fout<<"K,C"<<std::endl;
+    for (int i=0; i < strikes.cols(); i++) {
+        fout<<strikes[i]<<','<<prices[i]<<std::endl;
+    }
+    fout.close();
 }
 

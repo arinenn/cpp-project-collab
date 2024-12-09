@@ -1,6 +1,8 @@
 #ifndef HESTON_PRICING_H
 #define HESTON_PRICING_H
 
+#include <fstream>
+
 #include "fft.h"
 #include "heston_model.h"
 #include "european_options.h"
@@ -30,6 +32,7 @@ public:
     Eigen::RowVectorXd get_log_strike_grid();
     Eigen::RowVectorXd calculate(EuropeanOption &option);
     void calc_and_show(EuropeanOption &option, double K_lower, double K_upper);
+    void print_results(Eigen::RowVectorXd &strikes, Eigen::RowVectorXd &prices);
 };
 
 #endif  // HESTON_PRICING_H

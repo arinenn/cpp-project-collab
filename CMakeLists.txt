@@ -20,4 +20,13 @@ add_executable(main
     src/heston_pricing.cpp
 )
 
+add_executable(test2
+    tests/test2.cpp
+    src/fft.cpp
+    src/european_options.cpp
+    src/heston_model.cpp
+    src/heston_pricing.cpp
+)
+
+
 include_directories(include)
