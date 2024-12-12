@@ -11,21 +11,21 @@ jobs:
         with:
           name: binaries
           path: |
-              build/main
-              build/test2
-  run:
+              build/example-1
+              build/example-2
+  example-1:
     needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/download-artifact@v4
       with:
         name: binaries
-    - run: chmod +x main && ./main
-  test2:
+    - run: chmod +x example-1 && ./example-1
+  example-2:
     needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/download-artifact@v4
       with:
         name: binaries
-    - run: chmod +x test2 && ./test2
+    - run: chmod +x example-2 && ./example-2

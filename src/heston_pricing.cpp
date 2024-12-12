@@ -1,7 +1,4 @@
 #include "heston_pricing.h"
-#include <iostream>
-#include <iomanip>
-
 
 HestonEuropeanOptionCalculator::HestonEuropeanOptionCalculator(
     double _r,
@@ -49,6 +46,26 @@ void HestonEuropeanOptionCalculator::set_calculator_params(
     d_k = 2 * M_PI / (d_u * N);
 };
 
+double HestonEuropeanOptionCalculator::get_alpha()
+{
+    return alpha;
+}
+
+double HestonEuropeanOptionCalculator::get_N()
+{
+    return N;
+}
+
+double HestonEuropeanOptionCalculator::get_d_u()
+{
+    return d_u;
+}
+
+double HestonEuropeanOptionCalculator::get_d_k()
+{
+    return d_k;
+}
+
 Eigen::RowVectorXd HestonEuropeanOptionCalculator::get_log_strike_grid()
 {
     return Eigen::RowVectorXd::LinSpaced(N, -N * d_k / 2, (N / 2 - 1) * d_k);
@@ -56,8 +73,11 @@ Eigen::RowVectorXd HestonEuropeanOptionCalculator::get_log_strike_grid()
 
 Eigen::RowVectorXd HestonEuropeanOptionCalculator::calculate(EuropeanOption &option)
 {
+    // Get u, log strikes grids
     Eigen::RowVectorXd log_strikes = get_log_strike_grid();
     Eigen::RowVectorXcd u_grid = Eigen::RowVectorXd::LinSpaced(N, 0, (N-1) * d_u);
+
+    // Calculate characteristic function of undistounted call option price, multiplied by exp(-alpha*lnK)
     Eigen::RowVectorXcd exp_option_cf(N);
     double T = option.get_maturity();
     double x = std::log(s_0 * df(T, 0));
@@ -65,41 +85,24 @@ Eigen::RowVectorXd HestonEuropeanOptionCalculator::calculate(EuropeanOption &opt
         std::complex<double> mult((-1 + 2*((i+1)%2)), 0);
         exp_option_cf[i] = mult * heston_exp_option_cf(u_grid[i], x, v_0, alpha, T, params);
     }
+
+    // Approximate continous Fourier transform by discrete using FFT algorithm
     Eigen::RowVectorXcd integr_appr = fft(exp_option_cf);
+
+    // Result call option prices
     Eigen::RowVectorXd result(N);
+
+    // Calculate resulting call option prices
     Eigen::RowVectorXd temp;
     temp = (-alpha * log_strikes).array().exp();
     result = integr_appr.real();
     result = result.cwiseProduct(temp);
     result = (df(0, T) * d_u / M_PI) * result;
+    
     if (option.is_call()) {
         return result;
     }
-    // if option is of put type
+
+    // If option is of put type, use the Put-Call parity
     return result.array() + log_strikes.array().exp() * df(0, T) - s_0;
 }
-
-void HestonEuropeanOptionCalculator::calc_and_show(EuropeanOption &option, double K_lower, double K_upper)
-{
-    Eigen::RowVectorXd strikes = get_log_strike_grid().array().exp();
-    Eigen::RowVectorXd prices = calculate(option);
-    for (int i=0; i < strikes.cols(); i++) {
-        if ((strikes[i] >= K_lower) && (strikes[i] <= K_upper)) {
-            std::cout << std::setprecision(7) << "K=" << strikes[i] << "\tC=" << prices[i] << std::endl;
-        } else if (strikes[i] > K_upper) {
-            break;
-        }
-    }
-    print_results(strikes, prices);
-}
-
-void HestonEuropeanOptionCalculator::print_results(Eigen::RowVectorXd &strikes, Eigen::RowVectorXd &prices)
-{
-    std::ofstream fout("plot/output.csv"); 
-    fout<<"K,C"<<std::endl;
-    for (int i=0; i < strikes.cols(); i++) {
-        fout<<strikes[i]<<','<<prices[i]<<std::endl;
-    }
-    fout.close();
-}
-
