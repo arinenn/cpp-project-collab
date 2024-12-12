@@ -1,8 +1,6 @@
 #ifndef HESTON_PRICING_H
 #define HESTON_PRICING_H
 
-#include <fstream>
-
 #include "fft.h"
 #include "heston_model.h"
 #include "european_options.h"
@@ -17,7 +15,7 @@ private:
     int N;      // count of exponents in integral approximation
     double d_u; // u grid step
     double d_k; // log strike grid step
-    double df(double t, double T);
+    double df(double t, double T);  // get discount factor
 public:
     HestonEuropeanOptionCalculator(
         double r,
@@ -29,10 +27,12 @@ public:
         double d_u
     );
     void set_calculator_params(double alpha, int N, double d_u);
+    double get_alpha();
+    double get_N();
+    double get_d_u();
+    double get_d_k();
     Eigen::RowVectorXd get_log_strike_grid();
     Eigen::RowVectorXd calculate(EuropeanOption &option);
-    void calc_and_show(EuropeanOption &option, double K_lower, double K_upper);
-    void print_results(Eigen::RowVectorXd &strikes, Eigen::RowVectorXd &prices);
 };
 
 #endif  // HESTON_PRICING_H
