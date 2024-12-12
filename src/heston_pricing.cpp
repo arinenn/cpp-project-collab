@@ -90,7 +90,7 @@ void HestonEuropeanOptionCalculator::calc_and_show(EuropeanOption &option, doubl
             break;
         }
     }
-    print_results(strikes, prices);
+    // print_results(strikes, prices);
 }
 
 void HestonEuropeanOptionCalculator::print_results(Eigen::RowVectorXd &strikes, Eigen::RowVectorXd &prices)
