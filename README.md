@@ -1,6 +1,6 @@
 # fft-heston-cpp
 
-A simple C++ library that implements Carr-Madan option pricing method for Heston model using Fast Fourier Transform.
+A simple yet powerful C++ library that implements Carr-Madan option pricing method for Heston model using Fast Fourier Transform.
 
 For references see [Project's overleaf page](https://www.overleaf.com/read/crxdwgqxytmc#ddd71c).
 
@@ -11,7 +11,7 @@ For references see [Project's overleaf page](https://www.overleaf.com/read/crxdw
 3. Implementation of theoretical results for numerical experiments.
 4. Possibility of calculated data exporting.
 
-![Minimal example](./examples/example-1.png)
+![Minimal example](./plots/example-1.png)
 
 # Basic Usage
 
