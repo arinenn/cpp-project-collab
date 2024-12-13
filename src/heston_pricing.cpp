@@ -26,7 +26,8 @@ HestonEuropeanOptionCalculator::HestonEuropeanOptionCalculator(
     set_calculator_params(alpha, N, d_u);
 };
 
-double HestonEuropeanOptionCalculator::df(double t, double T) {
+double HestonEuropeanOptionCalculator::df(double t, double T)
+{
     return std::exp(-r * (T-t));
 };
 
@@ -38,8 +39,8 @@ void HestonEuropeanOptionCalculator::set_calculator_params(
     if (_alpha <= 0) {
         throw std::invalid_argument("Parameter alpha must be non-negative.");
     }
-    if (_N <= 0) {
-        throw std::invalid_argument("Grid size must be non-negative.");
+    if ((_N <= 0) || (N % 2 == 1)) {
+        throw std::invalid_argument("Grid size must be non-negative and even.");
     }
     if (_d_u <= 0) {
         throw std::invalid_argument("Grid step must be non-negative.");
@@ -47,6 +48,8 @@ void HestonEuropeanOptionCalculator::set_calculator_params(
     d_u = _d_u;
     N = _N;
     alpha = _alpha;
+
+    // Set strikes grid step for FFT usage
     d_k = 2 * M_PI / (d_u * N);
 };
 

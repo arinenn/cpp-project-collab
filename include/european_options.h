@@ -12,7 +12,6 @@
  * 
  * @details     This class is later used for price calculations.
  *              Time to maturity and strike could be changed, but option type couldn't.
- *              If values of T or K are invalid, std::invalid_argument is thrown.
  */
 class EuropeanOption
 {
@@ -30,6 +29,8 @@ public:
     /**
      * @brief   A european option constructor.
      * 
+     * @details If values of T or K are non-positive, std::invalid_argument is thrown.
+     * 
      * @param   _is_call    Whether option is of call type
      * @param   m           Time to maturity value
      * @param   s           Strike value
@@ -42,6 +43,8 @@ public:
     /**
      * @brief   Set time to maturity.
      * 
+     * @details If m is non-positive, std::invalid_argument is thrown.
+     * 
      * @param   m           Time to maturity value
      */
     void set_maturity(double m);
@@ -51,6 +54,8 @@ public:
 
     /**
      * @brief   Set strike value.
+     * 
+     * @details If s is non-positive, std::invalid_argument is thrown.
      * 
      * @param   s           Strike value
      */

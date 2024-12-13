@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Class of european options Heston model calculator.
+ * @brief Parameteres of Heston model and implementation of characteristic functions.
  */
 #include "heston_model.h"
 

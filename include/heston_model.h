@@ -12,6 +12,8 @@
  * @brief       A Heston model parameteres struct
  * 
  * @details     This structure is later used for characteristic functions and price calculations.
+ *              We assume that risk-free interest rate is constant.
+ *              Elements of structure must be positive.
  */
 struct HestonParams
 {
@@ -43,7 +45,7 @@ struct HestonParams
  * @param   T       Time to expiration
  * @param   params  Heston model parameters struct
  *
- * @return      Analytical value of characteristic function.
+ * @return      analytical value of characteristic function.
  */
 std::complex<double>
 heston_log_price_cf(std::complex<double> u, double x, double v, double t, double T, HestonParams &params);
@@ -64,7 +66,7 @@ heston_log_price_cf(std::complex<double> u, double x, double v, double t, double
  * @param   T       Time to expiration
  * @param   params  Heston model parameters struct
  *
- * @return      Analytical value of characteristic function.
+ * @return      analytical value of characteristic function.
  */
 std::complex<double>
 heston_exp_option_cf(std::complex<double> u, double x, double v, double alpha, double T, HestonParams &params);
