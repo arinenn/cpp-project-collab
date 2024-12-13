@@ -121,6 +121,8 @@ public:
      * @param   option  European option with given time to maturity and type
      *
      * @return          vector of prices of shape N.
+     * 
+     * @see             Project's overleaf page at Main Page
      */
     Eigen::RowVectorXd calculate(EuropeanOption &option);
 };

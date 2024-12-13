@@ -46,6 +46,8 @@ struct HestonParams
  * @param   params  Heston model parameters struct
  *
  * @return      analytical value of characteristic function.
+ * 
+ * @see             Project's overleaf page at Main Page
  */
 std::complex<double>
 heston_log_price_cf(std::complex<double> u, double x, double v, double t, double T, HestonParams &params);
@@ -67,6 +69,8 @@ heston_log_price_cf(std::complex<double> u, double x, double v, double t, double
  * @param   params  Heston model parameters struct
  *
  * @return      analytical value of characteristic function.
+ * 
+ * @see             Project's overleaf page at Main Page
  */
 std::complex<double>
 heston_exp_option_cf(std::complex<double> u, double x, double v, double alpha, double T, HestonParams &params);

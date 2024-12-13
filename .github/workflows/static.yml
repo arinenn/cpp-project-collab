@@ -35,6 +35,8 @@ jobs:
         uses: actions/configure-pages@v4
       - name: Install Doxygen
         run: sudo apt install doxygen && doxygen --version
+      - name: Install Graphviz
+        run: sudo apt install graphviz
       - name: Create Documentation
         run: doxygen
       - name: Upload artifact
