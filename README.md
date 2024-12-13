@@ -4,16 +4,16 @@ A simple yet powerful C++ library that implements Carr-Madan option pricing meth
 
 # Materials
 
-[Documentaion](https://arinenn.github.io/fft-heston-cpp/) is deployed by Github Pages. For
+[Documentation](https://arinenn.github.io/fft-heston-cpp/) is deployed by Github Pages. For
+- Project Architecture
 - System Requirements
 - Functional Requirements
 - Workflow Pipeline
-- Theoretical Results and Formulas
+- Theoretical Results, Formulas and Links
 
 see [Project's overleaf page](https://www.overleaf.com/read/crxdwgqxytmc#ddd71c).
 
 # Features
-
 
 1. [Eigen 3.4](https://eigen.tuxfamily.org/index.php?title=Main_Page) is used for vectorized calculations.
 2. FFT algorithm implementation.
