@@ -17,11 +17,6 @@ add_library(fft-heston-cpp STATIC ${SOURCE_FILES})
 # Include headers and other libraries
 target_include_directories(fft-heston-cpp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-# Move compilated files for export
-set_target_properties(fft-heston-cpp PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
-
 # CMake instructions to build examples using the static lib
 foreach(EXAMPLE_SOURCE_FILE ${EXAMPLE_SOURCE_FILES})
     get_filename_component(EXAMPLE_NAME ${EXAMPLE_SOURCE_FILE} NAME_WE)

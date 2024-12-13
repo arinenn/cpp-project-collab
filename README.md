@@ -6,10 +6,12 @@ For references see [Project's overleaf page](https://www.overleaf.com/read/crxdw
 
 # Features
 
-1. FFT algorithm implementation.
-2. Usage of OOP: classes of european options, Heston model calculator, option prices printer.
-3. Implementation of theoretical results for numerical experiments.
-4. Possibility of calculated data exporting.
+
+1. [Eigen 3.4](https://eigen.tuxfamily.org/index.php?title=Main_Page) is used for vectorized calculations.
+2. FFT algorithm implementation.
+3. Usage of OOP: classes of european options, Heston model calculator, option prices printer.
+4. Implementation of theoretical results for numerical experiments.
+5. Possibility of calculated data exporting.
 
 ![Minimal example](./plots/example-1.png)
 
@@ -42,11 +44,10 @@ K=1.34351767063 C=0.0389172128958
 K=1.34867988847 C=0.0381676879673
 ```
 
-4. The command with prefix `-I./fft-heston-cpp/include ./fft-heston-cpp/build/bin/libfft-heston-cpp.a` (works for both Unix and Windows):
+4. The next command (works for both Unix and Windows) is used to run the file `main.cpp`:
 ```bash
 g++ main.cpp -I./fft-heston-cpp/include ./fft-heston-cpp/build/bin/libfft-heston-cpp.a
 ```
-is used to run the file `main.cpp`:
 ```bash
 your_directory/
     fft-heston-cpp/
