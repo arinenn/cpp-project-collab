@@ -5,6 +5,8 @@
 #ifndef HESTON_PRICING_H
 #define HESTON_PRICING_H
 
+#include <utility>
+
 #include "fft.h"
 #include "heston_model.h"
 #include "european_options.h"
@@ -107,6 +109,19 @@ public:
      * @return          evenly spaced log strikes values with step \f$\Delta k \f$.
      */
     Eigen::RowVectorXd get_log_strike_grid();
+
+    /**
+     * @brief           Check condition of finite moments
+     * 
+     * @details         Checks Andersen Piterbarg condition (\f$\mathbb{E}S_T^{\alpha+1} < \infty\f$).
+     *                  If \f$ T^*=0 \f$ is returned, that means T*=+infty.
+     *                  If \f$ T^*\neq0\f$ consider checking the returned flag.
+     * 
+     * @return          pair of flag whether integration is correct or not and upper bound T*
+     * 
+     * @see             Project's overleaf page at Main Page
+     */
+    std::pair<bool, double> integrate_condition(double T);
 
     /**
      * @brief           Calculate european option prices at inner strikes grid by FFT

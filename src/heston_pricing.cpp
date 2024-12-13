@@ -39,7 +39,7 @@ void HestonEuropeanOptionCalculator::set_calculator_params(
     if (_alpha <= 0) {
         throw std::invalid_argument("Parameter alpha must be non-negative.");
     }
-    if ((_N <= 0) || (N % 2 == 1)) {
+    if ((_N <= 0) || (_N % 2 == 1)) {
         throw std::invalid_argument("Grid size must be non-negative and even.");
     }
     if (_d_u <= 0) {
@@ -78,8 +78,58 @@ Eigen::RowVectorXd HestonEuropeanOptionCalculator::get_log_strike_grid()
     return Eigen::RowVectorXd::LinSpaced(N, -N * d_k / 2, (N / 2 - 1) * d_k);
 }
 
+
+std::pair<bool, double> HestonEuropeanOptionCalculator::integrate_condition(double T)
+{
+    // Calculate discriminant
+    double k = alpha * (alpha + 1) / 2;
+    double sigma_2 = params.sigma * params.sigma;
+    double b = 2 * k / sigma_2;
+    double a = (2 * params.rho * (alpha + 1) - params.kappa) / sigma_2;
+    double D = a * a - 4 * b;
+    double gamma = std::sqrt(std::abs(D)) / 2;
+
+    // Resulting pair
+    std::pair<bool, double> result(true, 0);
+
+    // Calculate T*
+    if (D >= 0) {
+        if (a < 0) {
+            // T* = +infty
+            return result;
+        } else {
+            result.second = sigma_2 * std::log(
+                (a/2 + gamma) / (a/2 - gamma)
+            ) / gamma;
+        }
+    } else {
+        if (a < 0) {
+            result.second = 2 * sigma_2 * (
+                M_PI + std::atan(2 * gamma / a)
+            ) / gamma;
+        } else {
+            result.second = 2 * sigma_2 * (
+                std::atan(2 * gamma / a)
+            ) / gamma;
+        }
+    }
+
+    // Calculate the flag
+    if (T >= result.second) {
+        // Moment is infinite
+        result.first = false;
+    }
+    return result;
+}
+
 Eigen::RowVectorXd HestonEuropeanOptionCalculator::calculate(EuropeanOption &option)
 {
+    // Check Andersen-Piterbarg condition
+    std::pair<bool, double> flag = integrate_condition(option.get_maturity());
+    if (!flag.first) {
+        throw std::invalid_argument("Andersen-Piterbarg condition is false.");
+    }
+
     // Get u, log strikes grids
     Eigen::RowVectorXd log_strikes = get_log_strike_grid();
     Eigen::RowVectorXcd u_grid = Eigen::RowVectorXd::LinSpaced(N, 0, (N-1) * d_u);
