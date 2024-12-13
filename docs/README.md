@@ -41,7 +41,7 @@ K=1.34351767063 C=0.0389172128958
 K=1.34867988847 C=0.0381676879673
 ```
 
-4. The next command (works for both Unix and Windows) is used to run the file `main.cpp`:
+4. The next command (works for both Unix and Windows) is used to compile the file `main.cpp`:
 ```bash
 g++ main.cpp -I./fft-heston-cpp/include ./fft-heston-cpp/build/bin/libfft-heston-cpp.a
 ```
@@ -88,3 +88,10 @@ int main()
     return 0;
 }
 ```
+
+5. Run compiled program
+```bash
+main        # Windows
+./main      # Unix-like
+```
+If binary is complied successfully, then it should run for ~1 minute (depends on system characteristics).
