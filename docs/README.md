@@ -12,8 +12,6 @@ For references see [Project's overleaf page](https://www.overleaf.com/read/crxdw
 4. Implementation of theoretical results for numerical experiments.
 5. Possibility of calculated data exporting.
 
-![Minimal example](./plots/example-1.png)
-
 # Basic Usage
 
 To use this library in other projects consider a simple pipeline:
