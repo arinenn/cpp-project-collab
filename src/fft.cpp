@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief FFT algorithm implementation.
+ */
 #include "fft.h"
 
 Eigen::RowVectorXcd
@@ -5,7 +9,7 @@ fft(Eigen::RowVectorXcd &vector)
 {
     // Check if length is even
     if (vector.cols() % 2 == 1) {
-        throw std::runtime_error("Vector must be of even size.");
+        throw std::invalid_argument("Vector must be of even size.");
     }
 
     // Result vector

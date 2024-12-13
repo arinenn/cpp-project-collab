@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief European option class.
+ */
 #include "european_options.h"
 
 EuropeanOption::EuropeanOption(bool is_call, double m, double s): _is_call(is_call)

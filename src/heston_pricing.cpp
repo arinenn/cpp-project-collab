@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief Class of european options Heston model calculator.
+ */
 #include "heston_pricing.h"
 
 HestonEuropeanOptionCalculator::HestonEuropeanOptionCalculator(

@@ -1,5 +1,8 @@
+/**
+ * @file
+ * @brief Class of european options Heston model calculator.
+ */
 #include "heston_model.h"
-#include <iostream>
 
 std::complex<double>
 heston_log_price_cf(std::complex<double> u, double x, double v, double t, double T, HestonParams &params)

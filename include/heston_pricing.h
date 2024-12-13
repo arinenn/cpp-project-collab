@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief Class of european options Heston model calculator.
+ */
 #ifndef HESTON_PRICING_H
 #define HESTON_PRICING_H
 
@@ -5,6 +9,13 @@
 #include "heston_model.h"
 #include "european_options.h"
 
+/**
+ * @brief       A class of Heston model european options calculator
+ * 
+ * @details     This class is later used for price calculations.
+ *              Time to maturity and strike could be changed, but option type couldn't.
+ *              If values of T or K are invalid, std::invalid_argument is thrown.
+ */
 class HestonEuropeanOptionCalculator {
 private:
     double r;               // market parameteres

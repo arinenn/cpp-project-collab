@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief Printer class for stdout and .csv data export
+ */
 #include "print.h"
 
 PricesPrinter::PricesPrinter(double K_lower, double K_upper)
