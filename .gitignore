@@ -1,3 +1,4 @@
 .vscode
 build
-docs/docs
+docs/html
+docs/latex
